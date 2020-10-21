@@ -201,6 +201,7 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
+  addressable
   auth0!
   codecov
   coveralls
