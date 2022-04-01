@@ -33,7 +33,7 @@ module Auth0
       #   Required only if it was set at the GET /authorize endpoint
       # @param client_id [string] Client ID for the Application
       # @param client_secret [string] Client Secret for the Application.
-      # @return [AccessToken] Returns the access_token and id_token
+      # @return [Auth0AccessToken] Returns the access_token and id_token
       def exchange_auth_code_for_tokens(
         code,
         redirect_uri: nil,
@@ -49,7 +49,7 @@ module Auth0
           code: code,
           redirect_uri: redirect_uri
         }
-        AccessToken.from_response post('/oauth/token', request_params)
+        Auth0AccessToken.from_response post('/oauth/token', request_params)
       end
 
       # Get access and ID tokens using a refresh token.
@@ -60,7 +60,7 @@ module Auth0
       # @param client_secret [string] Client Secret for the Application.
       #   Required when the Application's Token Endpoint Authentication Method
       #   is Post or Basic.
-      # @return [AccessToken] Returns tokens allowed in the refresh_token
+      # @return [Auth0AccessToken] Returns tokens allowed in the refresh_token
       def exchange_refresh_token(
         refresh_token,
         client_id: @client_id,
@@ -74,7 +74,7 @@ module Auth0
           client_secret: client_secret,
           refresh_token: refresh_token
         }
-        AccessToken.from_response post('/oauth/token', request_params)
+        Auth0AccessToken.from_response post('/oauth/token', request_params)
       end
 
       # rubocop:disable Metrics/ParameterLists
@@ -114,7 +114,7 @@ module Auth0
           audience: audience,
           grant_type: realm ? 'http://auth0.com/oauth/grant-type/password-realm' : 'password'
         }
-        AccessToken.from_response post('/oauth/token', request_params)
+        Auth0AccessToken.from_response post('/oauth/token', request_params)
       end
       # rubocop:enable Metrics/ParameterLists
 

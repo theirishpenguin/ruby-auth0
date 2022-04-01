@@ -1,4 +1,4 @@
-AccessToken = Struct.new(
+Auth0AccessToken = Struct.new(
   :access_token,
   :expires_in,
   :refresh_token,

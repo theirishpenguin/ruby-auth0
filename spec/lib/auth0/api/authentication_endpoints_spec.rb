@@ -21,9 +21,9 @@ describe Auth0::Api::AuthenticationEndpoints do
         client_id: @instance.client_id,
         client_secret: @instance.client_secret,
         audience: @instance.audience,
-      ).and_return('access_token' => 'AccessToken')
+      ).and_return('access_token' => 'Auth0AccessToken')
 
-      expect(@instance.api_token.token).to eql 'AccessToken'
+      expect(@instance.api_token.token).to eql 'Auth0AccessToken'
     end
 
     it "is expected to POST to '/oauth/token' with a custom audience" do
@@ -33,11 +33,11 @@ describe Auth0::Api::AuthenticationEndpoints do
         client_id: @instance.client_id,
         client_secret: @instance.client_secret,
         audience: '__test_audience__',
-      ).and_return('access_token' => 'AccessToken')
+      ).and_return('access_token' => 'Auth0AccessToken')
 
       expect(
         @instance.api_token(audience: '__test_audience__').token
-      ).to eql 'AccessToken'
+      ).to eql 'Auth0AccessToken'
     end
   end
 
@@ -47,12 +47,12 @@ describe Auth0::Api::AuthenticationEndpoints do
       allow(@instance).to receive(:post).with(
         '/oauth/token', client_id: @instance.client_id, client_secret: @instance.client_secret, grant_type: 'client_credentials'
       )
-                            .and_return('access_token' => 'AccessToken')
+                            .and_return('access_token' => 'Auth0AccessToken')
 
       expect(@instance).to receive(:post).with(
         '/oauth/token', client_id: @instance.client_id, client_secret: @instance.client_secret, grant_type: 'client_credentials'
       )
-      expect(@instance.obtain_access_token).to eql 'AccessToken'
+      expect(@instance.obtain_access_token).to eql 'Auth0AccessToken'
     end
   end
 
@@ -63,12 +63,12 @@ describe Auth0::Api::AuthenticationEndpoints do
         '/oauth/access_token', client_id: @instance.client_id, access_token: 'access_token', connection: 'facebook',
                                scope: 'openid'
       )
-                                        .and_return('access_token' => 'AccessToken')
+                                        .and_return('access_token' => 'Auth0AccessToken')
       expect(@instance).to receive(:post).with(
         '/oauth/access_token', client_id: @instance.client_id, access_token: 'access_token', connection: 'facebook',
                                scope: 'openid'
       )
-      expect(@instance.obtain_access_token('access_token', 'facebook', 'openid')).to eql 'AccessToken'
+      expect(@instance.obtain_access_token('access_token', 'facebook', 'openid')).to eql 'Auth0AccessToken'
     end
   end
 
@@ -102,7 +102,7 @@ describe Auth0::Api::AuthenticationEndpoints do
         grant_type: 'authorization_code',
         code: '__test_auth_code__',
         redirect_uri: nil
-      ).and_return('access_token' => 'AccessToken')
+      ).and_return('access_token' => 'Auth0AccessToken')
 
       is_expected.to receive(:post).with(
         '/oauth/token',
@@ -117,7 +117,7 @@ describe Auth0::Api::AuthenticationEndpoints do
         @instance.exchange_auth_code_for_tokens(
           '__test_auth_code__'
         )['access_token']
-      ).to eq 'AccessToken'
+      ).to eq 'Auth0AccessToken'
     end
 
     it 'is expected to make post request to /oauth/token with custom params' do
@@ -128,7 +128,7 @@ describe Auth0::Api::AuthenticationEndpoints do
         client_secret: '_test_custom_client_secret__',
         code: '__test_auth_code__',
         redirect_uri: '__test_redirect_uri__'
-      ).and_return('access_token' => 'AccessToken')
+      ).and_return('access_token' => 'Auth0AccessToken')
 
       is_expected.to receive(:post).with(
         '/oauth/token',
@@ -146,7 +146,7 @@ describe Auth0::Api::AuthenticationEndpoints do
           client_id: '_test_custom_client_id__',
           client_secret: '_test_custom_client_secret__'
         )['access_token']
-      ).to eq 'AccessToken'
+      ).to eq 'Auth0AccessToken'
     end
 
     it 'is expected to raise an error when the code is empty' do
@@ -166,7 +166,7 @@ describe Auth0::Api::AuthenticationEndpoints do
         client_id: @instance.client_id,
         client_secret: @instance.client_secret,
         refresh_token: '__test_refresh_token__'
-      ).and_return('access_token' => 'AccessToken')
+      ).and_return('access_token' => 'Auth0AccessToken')
 
       is_expected.to receive(:post).with(
         '/oauth/token',
@@ -180,7 +180,7 @@ describe Auth0::Api::AuthenticationEndpoints do
         @instance.exchange_refresh_token(
           '__test_refresh_token__'
         )['access_token']
-      ).to eq 'AccessToken'
+      ).to eq 'Auth0AccessToken'
     end
 
 
@@ -191,7 +191,7 @@ describe Auth0::Api::AuthenticationEndpoints do
         client_id: '_test_custom_client_id__',
         client_secret: '_test_custom_client_secret__',
         refresh_token: '__test_refresh_token__'
-      ).and_return('access_token' => 'AccessToken')
+      ).and_return('access_token' => 'Auth0AccessToken')
 
       is_expected.to receive(:post).with(
         '/oauth/token',
@@ -207,7 +207,7 @@ describe Auth0::Api::AuthenticationEndpoints do
           client_id: '_test_custom_client_id__',
           client_secret: '_test_custom_client_secret__'
         )['access_token']
-      ).to eq 'AccessToken'
+      ).to eq 'Auth0AccessToken'
     end
 
     it 'is expected to raise an error when the refresh_token is empty' do
@@ -233,11 +233,11 @@ describe Auth0::Api::AuthenticationEndpoints do
         audience: nil,
         scope: 'openid',
         grant_type: 'password'
-      ).and_return('access_token' => 'AccessToken')
+      ).and_return('access_token' => 'Auth0AccessToken')
 
       expect(
         @instance.login_with_resource_owner('test@test.com', 'test12345').token
-      ).to eq 'AccessToken'
+      ).to eq 'Auth0AccessToken'
     end
 
     it 'should make post to /oauth/token with custom params' do
@@ -252,7 +252,7 @@ describe Auth0::Api::AuthenticationEndpoints do
         audience: '__custom_audience__',
         scope: 'openid email',
         grant_type: 'http://auth0.com/oauth/grant-type/password-realm'
-      ).and_return('access_token' => 'AccessToken')
+      ).and_return('access_token' => 'Auth0AccessToken')
 
       expect(
         @instance.login_with_resource_owner(
@@ -264,7 +264,7 @@ describe Auth0::Api::AuthenticationEndpoints do
           audience: '__custom_audience__',
           scope: 'openid email'
         ).token
-      ).to eq 'AccessToken'
+      ).to eq 'Auth0AccessToken'
     end
 
     it 'should raise an error with a blank username' do
